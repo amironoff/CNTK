@@ -932,11 +932,13 @@ def sanitize_axis(axis):
 
 
 def sanitize_dynamic_axes(axes):
+    if not type(axes) in (list, tuple):
+        axes = [axes]
+    for ax in axes:
+        if not isinstance(ax, cntk_py.Axis):
+            raise TypeError('type Axis expected')
     if axes != cntk_py.Axis.default_input_variable_dynamic_axes():
-        if not type(axes) in (list, tuple):
-            axes = [axes]
-        else:
-            axes = tuple(reversed(axes))
+        axes = tuple(reversed(axes))
     return axes
 
 
